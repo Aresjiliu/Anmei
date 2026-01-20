@@ -1,0 +1,241 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Courier+Prime:wght@400;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --tech-blue: #00d4ff;
+  --tech-purple: #7c3aed;
+  --tech-green: #00ff88;
+  --tech-dark: #0a0a0a;
+  --tech-navy: #1a1a2e;
+  
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", 'Space Grotesk', Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  line-height: 1.6;
+  font-weight: 400;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 深色高科技主题背景 */
+body {
+  background-color: var(--tech-dark);
+  color: #e4e4e7;
+  scroll-behavior: smooth;
+  position: relative;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    linear-gradient(0deg, transparent 24%, rgba(0, 212, 255, 0.03) 25%, rgba(0, 212, 255, 0.03) 26%, transparent 27%, transparent 74%, rgba(0, 212, 255, 0.03) 75%, rgba(0, 212, 255, 0.03) 76%, transparent 77%, transparent),
+    linear-gradient(90deg, transparent 24%, rgba(0, 212, 255, 0.03) 25%, rgba(0, 212, 255, 0.03) 26%, transparent 27%, transparent 74%, rgba(0, 212, 255, 0.03) 75%, rgba(0, 212, 255, 0.03) 76%, transparent 77%, transparent);
+  background-size: 50px 50px;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* 玻璃态卡片样式 */
+.glass-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 212, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.glass-card:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(0, 212, 255, 0.5);
+  box-shadow: 0 0 30px rgba(0, 212, 255, 0.2);
+}
+
+/* 发光边框效果 */
+.glow-border {
+  position: relative;
+  border: 1px solid rgba(0, 212, 255, 0.3);
+}
+
+.glow-border::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  right: -1px;
+  bottom: -1px;
+  background: linear-gradient(45deg, var(--tech-blue), var(--tech-purple), var(--tech-blue));
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+
+.glow-border:hover::before {
+  opacity: 0.5;
+  animation: borderFlow 3s linear infinite;
+}
+
+@keyframes borderFlow {
+  0% { background-position: 0% center; }
+  100% { background-position: 300% center; }
+}
+
+/* 发光文字 */
+.glow-text {
+  color: var(--tech-blue);
+  text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+  letter-spacing: 1px;
+}
+
+.glow-text.purple {
+  color: var(--tech-purple);
+  text-shadow: 0 0 20px rgba(124, 58, 237, 0.5);
+}
+
+/* 渐变文字 */
+.gradient-text {
+  background: linear-gradient(135deg, var(--tech-blue), var(--tech-purple), var(--tech-green));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* 按钮样式 */
+button {
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.btn-glow {
+  background: linear-gradient(135deg, var(--tech-blue), var(--tech-purple));
+  color: white;
+  border: 1px solid rgba(0, 212, 255, 0.5);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+  transition: all 0.3s ease;
+}
+
+.btn-glow:hover {
+  box-shadow: 0 0 40px rgba(0, 212, 255, 0.6), 0 0 80px rgba(124, 58, 237, 0.4);
+  transform: translateY(-2px);
+}
+
+.btn-glow:active {
+  transform: translateY(0);
+}
+
+/* 卡片过渡效果 */
+.card-hover {
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
+  transform-style: preserve-3d;
+}
+
+.card-hover:hover {
+  transform: translateY(-8px) translateZ(0);
+}
+
+/* 滚动指示器 */
+.scroll-indicator {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* 标题字体优化 */
+h1, h2, h3, h4 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+h1 {
+  font-size: clamp(2.5rem, 8vw, 4rem);
+  line-height: 1.1;
+}
+
+h2 {
+  font-size: clamp(1.8rem, 5vw, 2.8rem);
+  line-height: 1.2;
+}
+
+/* 数字和代码强调 */
+.number-highlight, code {
+  font-family: 'Courier Prime', monospace;
+  color: var(--tech-green);
+  background: rgba(0, 255, 136, 0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+/* 链接样式 */
+a {
+  color: var(--tech-blue);
+  text-decoration: none;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--tech-green);
+}
+
+a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--tech-blue);
+  transition: width 0.3s ease;
+}
+
+a:hover::after {
+  width: 100%;
+}
+
+/* 滚动条美化 */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--tech-blue), var(--tech-purple));
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, var(--tech-purple), var(--tech-blue));
+  box-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+}
+
+/* 选区样式 */
+::selection {
+  background: rgba(0, 212, 255, 0.3);
+  color: white;
+}
+
+/* 小屏幕响应式 */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2rem;
+  }
+  
+  h2 {
+    font-size: 1.5rem;
+  }
+}
