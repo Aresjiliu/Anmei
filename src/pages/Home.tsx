@@ -5,6 +5,12 @@ import { ParticleBackground } from '@/components/ui/ParticleBackground';
 import { MouseGlow } from '@/components/ui/MouseGlow';
 import { Card3D } from '@/components/ui/Card3D';
 import { GlitchText } from '@/components/ui/GlitchText';
+import docLiu from '../../doctor/刘劲松.png';
+import docWu from '../../doctor/武继祥.png';
+import docWang from '../../doctor/王健全.jpg';
+import docGu from '../../doctor/顾蕊.jpg';
+import docYao from '../../doctor/姚娟.png';
+import docWangCheng from '../../doctor/王人成.jpg';
 
 // 联盟企业数据
 const allianceCompanies = [
@@ -85,6 +91,70 @@ const allianceCompanies = [
       '下一代智能仿生假肢与外骨骼研发'
     ],
     image: 'https://space.coze.cn/api/coze_space/gen_image?image_size=landscape_16_9&prompt=Brain-computer%20interface%2C%20neural%20technology%2C%20biomedical%20research%2C%20future%20prosthetics&sign=8ca93af7b3b0068f312c028a76c3d672'
+  }
+];
+
+// 指导专家（使用 doctor 文件夹中的前六位，文本来自本地 MD 文件）
+const experts = [
+  {
+    id: 1,
+    name: '武继祥',
+    title: '陆军军医大学西南医院康复科教授、主任医师',
+    specialty: '康复医学、假肢矫形器临床应用、康复辅具标准制定',
+    bio: '从事康复医学临床、教学和科研30余年，长期在截肢及康复辅具领域一线工作。',
+    contributions: '担任中国康复医学会康复辅具应用专业委员会主任委员、牵头制定国家与行业标准，主编多部教材并主持多项教学与科研工作。',
+    achievements: '获国家发明专利及多项实用新型/外观专利，发表论文30+篇，主编和参编多部教材。',
+    image: docWu
+  },
+  {
+    id: 2,
+    name: '顾蕊',
+    title: '中国康复研究中心北京博爱医院骨科及骨关节康复科副主任医师（医学博士）',
+    specialty: '骨科康复、截肢康复',
+    bio: '具有多年骨科及骨科康复临床与教学经验，兼具国际康复医疗经验。',
+    contributions: '担任多项学会委员并参与学术编委工作，将先进国际康复理念与技术融入临床实践，长期开展截肢康复专病门诊。',
+    achievements: '在骨科康复与截肢康复领域有丰富临床案例与教学成果，参与多项学术与临床项目。',
+    image: docGu
+  },
+  {
+    id: 3,
+    name: '王健全',
+    title: '中国康复研究中心北京博爱医院矫形外科主任医师、教授、博士生导师',
+    specialty: '矫形外科、骨科康复、假肢技术',
+    bio: '擅长截肢后残肢处理与功能重建，长期从事复杂截肢和保肢手术及康复工作。',
+    contributions: '主导复杂截肢及残肢功能重建临床治疗，构建并完善康复与矫形外科的协同流程。',
+    achievements: '在临床一线积累丰富经验，承担多项临床任务与教学工作。',
+    image: docWang
+  },
+  {
+    id: 4,
+    name: '刘劲松',
+    title: '中国康复研究中心北京博爱医院假肢矫形中心主任、首都医科大学康复医学院假肢矫形教研室主任',
+    specialty: '假肢矫形技术、脊柱侧弯矫形器设计、3D数字化技术应用',
+    bio: '国际一级假肢矫形师，致力于假肢矫形技术与教学人才培养。',
+    contributions: '主导行业技术规范制定，推动手术康复与假肢适配一体化服务，建立国际认证人才培养基地。',
+    achievements: '推动国内首批国际认证假肢矫形人才培养，承担并主导多项教学与临床创新项目。',
+    image: docLiu
+  },
+  {
+    id: 5,
+    name: '姚娟',
+    title: '国家康复辅具研究中心北京辅具装配部技术主任',
+    specialty: '假肢矫形器制作、材料研发、临床装配',
+    bio: '长期从事假肢、矫形器的材料与装配研究，拥有丰富的一线实操经验。',
+    contributions: '参与并编制行业标准，主导材料试验与工艺迭代，承担国家重点研发项目并为海外地区装配大量假肢。',
+    achievements: '全国技术能手、国际二级矫形器制作师，编制多项行业标准并参与国家级研发与推广项目。',
+    image: docYao
+  },
+  {
+    id: 6,
+    name: '王人成',
+    title: '清华大学机械工程系副研究员',
+    specialty: '智能假肢、康复机器人、骨植入式假肢',
+    bio: '长期从事智能假肢与康复机器人研究，专注骨植入式假肢与仿生控制。',
+    contributions: '主持国家863等重大项目，推动骨植入式假肢及智能下肢假肢的研发与工程化。',
+    achievements: '获河北省科技进步二等奖，拥有多项发明专利并主编专业教材，培养大批专业人才。',
+    image: docWangCheng
   }
 ];
 
@@ -178,6 +248,48 @@ export default function Home() {
     }
   };
 
+  const truncate = (text: string, max = 80) => {
+    if (!text) return '';
+    return text.length > max ? text.slice(0, max - 1).trim() + '…' : text;
+  };
+
+  // 顶部导航带鼠标跟随下划线的按钮
+  const NavHoverButton = ({ children, onClick, delay = 0 }: { children: React.ReactNode; onClick?: () => void; delay?: number }) => {
+    const ref = useRef<HTMLButtonElement | null>(null);
+    const [x, setX] = useState(0);
+    const [show, setShow] = useState(false);
+
+    return (
+      <motion.div
+        initial={{ opacity: 0, x: 20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay }}
+        className="relative"
+      >
+        <button
+          ref={ref}
+          onClick={onClick}
+          onMouseMove={(e) => {
+            const rect = ref.current?.getBoundingClientRect();
+            if (rect) setX(e.clientX - rect.left);
+            setShow(true);
+          }}
+          onMouseLeave={() => setShow(false)}
+          className="text-gray-300 text-base font-medium hover:text-gray-100 transition-all bg-transparent"
+        >
+          {children}
+        </button>
+
+        <div className="pointer-events-none absolute left-0 right-0 bottom-0 flex justify-start">
+          <div
+            style={{ left: x, width: 44 }}
+            className={`absolute bottom-0 h-0.5 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full transform -translate-x-1/2 transition-opacity duration-200 ${show ? 'opacity-100' : 'opacity-0'}`}
+          ></div>
+        </div>
+      </motion.div>
+    );
+  };
+
   return (
     <div className="min-h-screen bg-tech-dark text-gray-200 font-sans relative overflow-x-hidden">
       {/* 粒子背景和光晕 */}
@@ -267,6 +379,7 @@ export default function Home() {
               <motion.button
                 whileHover={{ scale: 1.05, boxShadow: "0 0 40px rgba(124, 58, 237, 0.6)" }}
                 whileTap={{ scale: 0.95 }}
+                onClick={() => scrollToSection('who-we-are')}
                 className="px-8 py-4 rounded-lg font-bold text-lg border border-tech-purple text-tech-purple hover:bg-tech-purple/20 transition-all cursor-pointer"
               >
                 了解更多
@@ -296,34 +409,13 @@ export default function Home() {
           </motion.div>
         </div>
 
-        {/* 顶部右侧导航按钮 */}
-        <div className="absolute top-6 right-12 flex gap-8 z-20 items-center">
-          <motion.button
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.5 }}
-            onClick={() => scrollToSection('alliance')}
-            className="text-gray-300 text-sm font-medium hover:text-gray-100 transition-all"
-          >
-            合作伙伴
-          </motion.button>
-          <motion.button
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.6 }}
-            onClick={() => scrollToSection('footer')}
-            className="text-gray-300 text-sm font-medium hover:text-gray-100 transition-all"
-          >
-            联系我们
-          </motion.button>
-          <motion.button
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.7 }}
-            className="px-5 py-2 rounded-full border border-gray-400 text-gray-300 text-sm font-medium hover:border-gray-200 hover:text-gray-100 transition-all"
-          >
-            更多
-          </motion.button>
+        {/* 顶部右侧导航按钮（超小屏隐藏以避免与品牌重叠） */}
+        <div className="absolute top-4 right-4 z-20">
+          <div className="hidden sm:flex gap-8 items-center">
+            <NavHoverButton delay={0.4} onClick={() => scrollToSection('experts')}>指导专家</NavHoverButton>
+            <NavHoverButton delay={0.5} onClick={() => scrollToSection('alliance')}>合作伙伴</NavHoverButton>
+            <NavHoverButton delay={0.6} onClick={() => scrollToSection('footer')}>关于我们</NavHoverButton>
+          </div>
         </div>
       </section>
 
@@ -386,6 +478,8 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      
 
       {/* ===== ALLIANCE SECTION ===== */}
       <section id="alliance" className="py-24 relative">
@@ -504,6 +598,63 @@ export default function Home() {
                 </div>
               </AnimatedCard>
             ))}
+          </div>
+
+          {/* 指导专家团队（放在合作公司下方，篇幅更大） */}
+          <div id="experts" className="mt-20 md:mt-24">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="max-w-4xl mx-auto text-center mb-8"
+            >
+                <h2 className="text-4xl md:text-5xl font-bold mb-6">
+                  <span className="gradient-text">指导专家团队</span>
+                </h2>
+                <div className="h-1 w-24 bg-gradient-to-r from-tech-blue to-tech-purple mx-auto mb-8"></div>
+                <p className="text-gray-400 max-w-2xl mx-auto">汇聚临床与工程方向的资深专家，为项目提供跨学科咨询与长期评估。</p>
+            </motion.div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 max-w-7xl mx-auto">
+              {experts.map((doc, i) => (
+                <AnimatedCard key={doc.id} delay={i * 0.12}>
+                  <Card3D>
+                    <div className="glass-card p-12 md:p-12 rounded-3xl h-full border border-tech-blue/20 hover:border-tech-blue/60 transition-all">
+                      <div className="flex flex-col md:flex-row items-start gap-8">
+                        <div className="w-48 h-48 md:w-44 md:h-44 rounded-full overflow-hidden flex-shrink-0 ring-1 ring-white/5">
+                          <img src={doc.image} alt={doc.name} className="w-full h-full object-cover" />
+                        </div>
+                        <div className="flex-1 text-left">
+                          <h4 className="text-2xl md:text-3xl lg:text-3xl font-bold text-white leading-tight">{doc.name}</h4>
+                          <p className="text-tech-blue text-sm md:text-base mb-2">{doc.title}</p>
+                          <p className="italic text-gray-400 text-sm mb-4">{doc.specialty}</p>
+
+                          <p className="text-gray-200 text-base leading-relaxed mb-4">{doc.bio}</p>
+
+                          <div className="">
+                            <p className="font-semibold text-gray-200 mb-2">贡献与成就</p>
+                            <ul className="list-inside space-y-2 text-gray-300 text-sm">
+                              {String(((doc.contributions || '') + '；' + (doc.achievements || '')))
+                                .split(/。|；|；|，|\n/)
+                                .filter(Boolean)
+                                .map(s => s.trim())
+                                .slice(0,4)
+                                .map((item, idx) => (
+                                  <li key={idx} className="flex items-start gap-3">
+                                    <span className="mt-1 text-tech-blue">•</span>
+                                    <span className="leading-tight">{truncate(item, 90)}</span>
+                                  </li>
+                                ))}
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </Card3D>
+                </AnimatedCard>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -640,6 +791,7 @@ export default function Home() {
             >
               <p>地址：中国上海市浦东新区张江高科技园区科苑路88号</p>
               <p>联系方式：<span className="text-tech-blue">+86 21 5888 8888</span> | <span className="text-tech-blue">info@anmeigroup.com</span></p>
+              <p className="max-w-2xl mx-auto text-sm text-gray-400/90 mt-4">安美集团专注于将先进的假肢技术、康复工程与临床服务整合为可规模化交付的体系，致力于通过技术与跨学科协作提升患者的功能恢复与生活质量。</p>
             </motion.div>
 
             {/* 版权 */}
